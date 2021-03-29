@@ -1,4 +1,4 @@
-# Project Summary
+# Project Summary 
 This project is my exploration of the PS/2 interface. Through this project I am learning about how the PS/2 protocol worked.
 
 ## Project Goal
