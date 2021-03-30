@@ -13,3 +13,7 @@ The Clock and Data pins are connected to the Arduino and are being read by Analo
 The graph above shows that the Clock and Data values oscillate with the same values and possibly have high frequency noise present. Also, the waveforms translate downwards during the duration a mouse button is pressed down and only translate back to its original position after the mouse button is released.
 
 The waveforms do not translate however when the scroll wheel is scrolled or when the mouse is moved.
+
+### 30 March 2021
+the clock pin is connected to 2kOhm pull up resistor and the data pin is connected to 2kOhm pull up resistor which are connected to 5V. Insert observations of result. 
+After, the clock and data pins were connected to a low pass filte. I believe the current data I am observing has a lot of high frequency noise. Therefore, by running the signals through the low pass filter, should yield cleaner and more observable results. 
