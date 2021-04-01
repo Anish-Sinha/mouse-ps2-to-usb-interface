@@ -1,8 +1,8 @@
 # Project Summary 
-This project is my exploration of the PS/2 interface. Through this project I am learning about how the PS/2 protocol worked.
+This project is my exploration of the PS/2 interface. Through this project I am learning about how the PS/2 protocol worked by reverse engineering it.
 
 ## Project Goal
-My goal for this project is to receive data being sent from the PS/2 mouse and use an arduino as a way to decode and translate it into commands that control my cursor on my computer, essentially creating a PS/2 to USB interface. 
+My goal for this project is to receive data being sent from the PS/2 mouse and use an arduino as a way to decode and translate it into commands that control my cursor on my computer, essentially creating a PS/2 to USB interface. I also hope to build an intuition as to how communication protocols worked from a practical standpoint and develop personal methodologies for further reverse engineering.
 
 ## Observations Log
 ### 24 March 2021
@@ -14,6 +14,14 @@ The graph above shows that the Clock and Data values oscillate with the same val
 
 The waveforms do not translate however when the scroll wheel is scrolled or when the mouse is moved.
 
-### 30 March 2021
-the clock pin is connected to 2kOhm pull up resistor and the data pin is connected to 2kOhm pull up resistor which are connected to 5V. Insert observations of result. 
-After, the clock and data pins were connected to a low pass filte. I believe the current data I am observing has a lot of high frequency noise. Therefore, by running the signals through the low pass filter, should yield cleaner and more observable results. 
+### 31 March 2021 
+Using the analog values from the Data pins, I have been able to implement a rudimentary click detection. When the mouse is clicked, I am outputting to the Arduino Serial Console as well as lighting an LED. This was done by using the waveform information shown in the graph above. Through this approach, I am able to detect when a button on the mouse is clicked and for the full duration the button is pressed down.
+
+Through trial and error, I found that the analog values from the Data pin only drop below the *magic number 977* when a button on the mouse is ***clicked*** and only exceed the *magic number 993* when a button on the mouse is ***not clicked***. 
+
+#### Limitations
+1. This approach can not differentiate between which button on the mouse is pressed. The mouse I am using has three buttons: left, right, and scroll wheel (which can also click down). Therefore, this approach prevents triggering button specific events such as left click to select versus right click for more options. 
+
+2. Also, this approach is only looking at the transformations to the waveform as a whole, and is thus susceptible to noise triggering false clicks or prematurely ending a click.
+
+3. Finally, by only analyzing the waveform, I am not decoding the actual bytes of data being sent by the mouse. Therefore, not only am I not able to detect which button was pressed, but I also am not able to detect when the mouse has been moved or when the scroll wheel has been scrolled. 
