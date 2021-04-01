@@ -21,8 +21,8 @@ Through trial and error, I found that the analog values from the Data pin only d
 
 <div align="center">
     <figure>
-        <img width="auto" height="165" class="center" src="pics-and-graphs/ClickDetectionV1-noClick.jpg">
-        <img width="auto" height="165" class="center" src="pics-and-graphs/ClickDetectionV1-Click.jpg">
+        <img width="auto" height="200" class="center" src="pics-and-graphs/ClickDetectionV1-noClick.jpg">
+        <img width="auto" height="200" class="center" src="pics-and-graphs/ClickDetectionV1-Click.jpg">
         <p align="center">Figure 2. LED lights up when a Mouse Button is clicked or pressed down and stays lit the entire duration of the press.</p>
     </figure>
 </div>
