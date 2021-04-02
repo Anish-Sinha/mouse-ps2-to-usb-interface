@@ -7,9 +7,11 @@ My goal for this project is to receive data being sent from the PS/2 mouse and u
 ## Observations Log
 ### 24 March 2021
 The Clock and Data pins are connected to the Arduino and are being read by AnalogRead, which reads the raw analog voltage. This data is outputted to the Serial Console and graphed in Excel.
-
-![Clock and Data Waveforms plotted together](./pics-and-graphs/MouseWaveform-240321.png)
-
+<!---![Clock and Data Waveforms plotted together](./pics-and-graphs/MouseWaveform-240321.png)--->
+<div>
+    <img src="/pics-and-graphs/MouseWaveform-240321.png">
+    <p align="center">Figure 1. Mouse Clicks identified on plotted Analog Clock and Data Waveforms</p>
+</div>
 The graph above shows that the Clock and Data values oscillate with the same values and possibly have high frequency noise present. Also, the waveforms translate downwards during the duration a mouse button is pressed down and only translate back to its original position after the mouse button is released.
 
 The waveforms do not translate however when the scroll wheel is scrolled or when the mouse is moved.
@@ -32,8 +34,22 @@ Through trial and error, I found that the analog values from the Data pin only d
 </div>
 
 #### Limitations With This Approach
-1. This approach can not differentiate between which button on the mouse is pressed. The mouse I am using has three buttons: left, right, and scroll wheel (which can also click down). Therefore, this approach prevents triggering button specific events such as left click to select versus right click for more options. 
+1. This approach sends multiple message when a button on the mouse is held down. Depending upon how the message is interpretated on the other end, one held down button may trigger multiple short clicks rather than one long click. This is not ideal. 
 
-2. Also, this approach is only looking at the transformations to the waveform as a whole, and is thus susceptible to noise triggering false clicks or prematurely ending a click.
+2. This approach can not differentiate between which button on the mouse is pressed. The mouse I am using has three buttons: left, right, and scroll wheel (which can also click down). Therefore, this approach prevents triggering button specific events such as left click to select versus right click for more options. 
 
-3. Finally, by only analyzing the waveform, I am not decoding the actual bytes of data being sent by the mouse. Therefore, not only am I not able to detect which button was pressed, but I also am not able to detect when the mouse has been moved or when the scroll wheel has been scrolled. 
+3. Also, this approach is only looking at the transformations to the waveform as a whole, and is thus susceptible to noise triggering false clicks or prematurely ending a click.
+
+4. Finally, by only analyzing the waveform, I am not decoding the actual bytes of data being sent by the mouse. Therefore, not only am I not able to detect which button was pressed, but I also am not able to detect when the mouse has been moved or when the scroll wheel has been scrolled. 
+
+### 1 April 2021
+I have updated the rudimentary click detection code to remember state: the click status. If the mouse button is held down, rather than repeatedly sending a message that the button has been clicked, it only sends a message when the button was first pressed down and when the button is finally released. This can be seen in the screenshot below of the serial console. The output messages have been timestamped. 
+<!---
+![Serial Console Output of Rudimentary Click Detection V2](./pics-and-graphs/ClickDetectionV2-consoleOutput.png)
+<p align="center">Figure 4. Serial Console outputting Button Clicked and Button Released Messages</p>
+--->
+<div>
+    <img src="/pics-and-graphs/ClickDetectionV2-consoleOutput.png">
+    <p align="center">Figure 4. Serial Console outputting Button Clicked and Button Released Messages</p>
+</div>
+This iteration on the rudimentary click detection overcomes Limitation #1 listed under 31 March's Log entry. 
