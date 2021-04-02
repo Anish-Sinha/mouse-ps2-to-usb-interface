@@ -3,6 +3,9 @@ uint8_t clk = A0;
 uint8_t data = A5;
 uint8_t ledPin = 4;
 
+//boolean for click status
+boolean isClicked = false;
+
 //values only drop below this value when clicked
 int bottomThreshold = 977; //determined through trial and error
 
@@ -22,16 +25,27 @@ void loop() {
   //using values from Data pin
   int dataVoltage = analogRead( data );
 
-  
-  if( dataVoltage > upperThreshold ){
-    Serial.println( dataVoltage );
-    //Serial.println( " - " );
+  //when the mouse button is finally release
+  if( (dataVoltage > upperThreshold) && (isClicked) ){
+    //Serial.println( dataVoltage );
+    Serial.println( "Button released bois" );
+
+    //turn off click indicator LED
     digitalWrite( ledPin, LOW );
+
+    //mouse button no longer pressed down
+    isClicked = false;
   }
 
-  if( dataVoltage < bottomThreshold ){
+  //when the mouse button was first pressed down
+  if( (dataVoltage < bottomThreshold) && (!isClicked) ){
     Serial.println( "We clicked bois" );
+
+    //turn on click indicator LED
     digitalWrite( ledPin, HIGH );
+
+    //mouse button is currently pressed down
+    isClicked = true;
   }
 
 }
