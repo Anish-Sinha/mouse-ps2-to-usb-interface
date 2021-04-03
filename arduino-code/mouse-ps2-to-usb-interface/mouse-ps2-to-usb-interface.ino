@@ -1,23 +1,26 @@
-uint8_t clk = A0;
-uint8_t data = A5;
+//analog pins
+uint8_t clk_analog = A0;
+uint8_t data_analog = A5;
+
+//digital pins
+uint8_t clock_digital = 8;
+uint8_t data_digital = 7;
 
 void setup() {
-  // put your setup code here, to run once:
+  // Set up Serial Console
   Serial.begin(9600);
 
-  //pin 8 input
-  pinMode( 8, INPUT);
-  
+  //set pins 8 and 7 as input to read from clock and data pin respectively
+  pinMode( clock_digital, INPUT);
+  pinMode( data_digital, INPUT);
 }
 
 void loop() {
-  // put your main code here, to run repeatedly:
-
-  Serial.print( analogRead(clk) );
+  //print out: analog clock voltage + " " + analog data voltage
+  Serial.print( analogRead(clk_analog) );
   Serial.print( " " );
-  Serial.println( analogRead(data) );
-  //Serial.println( digitalRead(8) );
-
+  Serial.println( analogRead(data_analog) );
+  
   //wait for analog-to-digital converter to stabilize 
   //since last reading
   //delay(2);
