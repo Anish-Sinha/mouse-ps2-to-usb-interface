@@ -8,11 +8,27 @@ uint8_t data_digital = 7;
 
 void setup() {
   // Set up Serial Console
-  Serial.begin(9600);
+  Serial.begin(115200);
 
   //set pins 8 and 7 as input to read from clock and data pin respectively
   pinMode( clock_digital, INPUT);
   pinMode( data_digital, INPUT);
+
+  /* Test */
+  //changing analog Read prescalar from 128 to 64
+//  ADCSRA &= ~(bit (ADPS0) | bit (ADPS1) | bit (ADPS2)); // clear prescaler bits
+  
+  // uncomment as required
+  
+//  ADCSRA |= bit (ADPS0);                               //   2  
+//  ADCSRA |= bit (ADPS1);                               //   4  
+//  ADCSRA |= bit (ADPS0) | bit (ADPS1);                 //   8  
+//  ADCSRA |= bit (ADPS2);                               //  16 
+//  ADCSRA |= bit (ADPS0) | bit (ADPS2);                 //  32 
+//  ADCSRA |= bit (ADPS1) | bit (ADPS2);                 //  64 
+//  ADCSRA |= bit (ADPS0) | bit (ADPS1) | bit (ADPS2);   // 128
+
+  /* Test */
 }
 
 void loop() {
