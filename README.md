@@ -34,7 +34,7 @@ Through trial and error, I found that the analog values from the Data pin only d
 </div>
 
 #### Limitations With This Approach
-1. This approach sends multiple message when a button on the mouse is held down. Depending upon how the message is interpretated on the other end, one held down button may trigger multiple short clicks rather than one long click. This is not ideal. 
+1. This approach sends multiple messages when a button on the mouse is held down. Depending upon how the message is interpretated on the other end, one held down button may trigger multiple short clicks rather than one long click. This is not ideal. 
 
 2. This approach can not differentiate between which button on the mouse is pressed. The mouse I am using has three buttons: left, right, and scroll wheel (which can also click down). Therefore, this approach prevents triggering button specific events such as left click to select versus right click for more options. 
 
@@ -42,7 +42,7 @@ Through trial and error, I found that the analog values from the Data pin only d
 
 4. Finally, by only analyzing the waveform, I am not decoding the actual bytes of data being sent by the mouse. Therefore, not only am I not able to detect which button was pressed, but I also am not able to detect when the mouse has been moved or when the scroll wheel has been scrolled. 
 
-### 1 April 2021
+### 1 April 2021 - This is no joke.
 I have updated the rudimentary click detection code to remember state: the click status. If the mouse button is held down, rather than repeatedly sending a message that the button has been clicked, it only sends a message when the button was first pressed down and when the button is finally released. This can be seen in the screenshot below of the serial console. The output messages have been timestamped. 
 <!---
 ![Serial Console Output of Rudimentary Click Detection V2](./pics-and-graphs/ClickDetectionV2-consoleOutput.png)
