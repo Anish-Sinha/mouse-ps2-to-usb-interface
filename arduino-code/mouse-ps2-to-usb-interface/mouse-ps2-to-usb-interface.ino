@@ -17,7 +17,7 @@ void setup() {
   /* Test */
   //changing analog Read prescalar from 128 to 64
 //  ADCSRA &= ~(bit (ADPS0) | bit (ADPS1) | bit (ADPS2)); // clear prescaler bits
-  
+  //Ahhhh why doesn't this work??!
   // uncomment as required
   
 //  ADCSRA |= bit (ADPS0);                               //   2  
