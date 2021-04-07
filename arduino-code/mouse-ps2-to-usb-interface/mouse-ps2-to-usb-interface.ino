@@ -24,6 +24,17 @@ void setup() {
   
 
   //send enable reporting data bits to mouse - 0xFA
+  if( digitalRead( !clk_digital_pin ) ){ //if the clock has gone low, start message
+    // Start bit
+
+    // 0xFA
+
+    // Parity Bit
+
+    // Stop Bit
+
+    // Acknowledge Bit
+  }
 
   /* end of starting code to mouse */
 
