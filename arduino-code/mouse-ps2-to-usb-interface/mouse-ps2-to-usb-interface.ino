@@ -26,6 +26,8 @@ void setup() {
   //send enable reporting data bits to mouse - 0xFA
   if( digitalRead( !clk_digital_pin ) ){ //if the clock has gone low, start message
     // Start bit
+    digitalWrite( data_digital_pin, HIGH );
+    delayMicroseconds( 100 );
 
     // 0xFA
 
