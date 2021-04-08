@@ -53,3 +53,8 @@ I have updated the rudimentary click detection code to remember state: the click
     <p align="center">Figure 4. Serial Console outputting Button Clicked and Button Released Messages</p>
 </div>
 This iteration on the rudimentary click detection overcomes Limitation #1 listed under 31 March's Log entry. 
+
+### 8 April 2021
+I'm going to take my talents to South Beach and decode the data packets being sent by the mouse. I feel like it's going to give me the best opportunity to win and derive the most granular functionality from the mouse. 
+
+Paraphrasing King James aside, this has been a bit more bumpy than I realized. There have been a lot of emotional highs and lows and I'll illustrate below what I mean.
