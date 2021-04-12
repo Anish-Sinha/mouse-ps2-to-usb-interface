@@ -12,6 +12,8 @@ volatile int testData = 0;
 volatile int bitCounter = 0;
 volatile uint8_t mouseOutput = 0;
 
+volatile bool command = false;
+
 void setup() {
   // Set up Serial Console
   Serial.begin(115200);
@@ -23,6 +25,7 @@ void setup() {
   //pull the clock low to let mouse know host is sending instruction
   digitalWrite( clk_digital_pin, LOW );
   testClock++;
+  command = true;
   delayMicroseconds( 100 );
 
   //release the clock and send start bit on data line
@@ -81,9 +84,18 @@ void readMouse() {
     bitCounter++;
   }
   if( (bitCounter > 0) && (bitCounter % 8 == 0) ){
-    Serial.println( mouseOutput, HEX );
+    sendPacket( mouseOutput );
     bitCounter++;
   }
+}
+
+//
+/* transfers mouse packet and resets all bit counters to read next transaction
+ * input - the mouse packet bytes
+ * output - 
+ */
+void sendPacket( uint8_t mousePacket ){
+  Serial.println( mousePacket, HEX );
 }
 
 void readData() {
