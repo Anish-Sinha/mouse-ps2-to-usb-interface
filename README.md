@@ -55,8 +55,6 @@ I have updated the rudimentary click detection code to remember state: the click
 This iteration on the rudimentary click detection overcomes Limitation #1 listed under 31 March's Log entry. 
 
 ### 8 April 2021
-I'm going to take my talents to South Beach and decode the data packets being sent by the mouse. I feel like it's going to give me the best opportunity to win and derive the most granular functionality from the mouse. 
+I'm going to take my talents to South Beach and decode the data packets being sent by the mouse. I feel like it's going to give me the best opportunity to win and derive the most granular functionality from the mouse. Paraphrasing King James aside, this has been a bit more bumpy than I realized. There have been a lot of emotional highs and lows and I'll illustrate below what I mean.
 
-Paraphrasing King James aside, this has been a bit more bumpy than I realized. There have been a lot of emotional highs and lows and I'll illustrate below what I mean.
-
-Turns out, to receive data packets from the mouse, the host (my computer) first has to send commands to the mouse. The host should first 'Reset' the mouse, and then 'Enable Reporting Mode' which sets up the mouse to stream data packets regarding button clicks and mouse movements back to the host. 
+Turns out, to receive data packets from the mouse, the host (my computer) first has to send commands to the mouse. The host should first 'Reset' the mouse, and then 'Enable Reporting Mode' which sets up the mouse to stream data packets regarding button clicks and mouse movements back to the host. To 'Reset' the mouse, the host needs to send the command 0xFF to the mouse and then wait 
