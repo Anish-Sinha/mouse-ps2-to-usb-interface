@@ -54,7 +54,40 @@ I have updated the rudimentary click detection code to remember state: the click
 </div>
 This iteration on the rudimentary click detection overcomes Limitation #1 listed under 31 March's Log entry. 
 
+As you see in the code, rudimentary click detection is separate from the actual click detection because I had never intended the rudimentary click detection to be further used. It was only for me to see how much functionality I could derive just by blindly analyzing waveform transformations rather than analyzing the actual bits sent. I am genuinely surprised and happy by the fact I was able to detect clicks and their duration as well as I did. From now on, however, I will analyze the bits being sent. 
+
 ### 8 April 2021
 I'm going to take my talents to South Beach and decode the data packets being sent by the mouse. I feel like it's going to give me the best opportunity to win and derive the most granular functionality from the mouse. Paraphrasing King James aside, this has been a bit more bumpy than I realized. There have been a lot of emotional highs and lows and I'll illustrate below what I mean.
 
-Turns out, to receive data packets from the mouse, the host (my computer) first has to send commands to the mouse. The host should first 'Reset' the mouse, and then 'Enable Reporting Mode' which sets up the mouse to stream data packets regarding button clicks and mouse movements back to the host. To 'Reset' the mouse, the host needs to send the command 0xFF to the mouse and then wait 
+Turns out, to receive data packets from the mouse, the Host (my computer) must first send commands to the mouse. The Host should:
+1. 'Reset' the mouse by sending the command '0xFF'
+2. Wait for the mouse to "Acknowledge" the Reset command, the mouse sends the message '0xFA'
+3. Wait for the mouse to send the BAT (Basic Assurance Test) completion code, '0xAA' if succesful and '0xFC' if error
+4. Wait for the mouse to send its Device ID, usually '0x00'
+5. After all of that, send the "Enable Reporting Mode" command to the mouse, '0xF4'
+6. Wait for the mouse to "Acknowledge" the Reset command, the mouse sends the message '0xFA'
+7. Read movement and button data packets from the mouse
+
+From my reading I learned that it is important for the Host to reset the mouse upon turning on to ensure the mouse's values are changed from an unknown state to default values. After entering the Reset mode, the mouse enters a self diagnostic test known as the Basic Assurance Test (BAT) and sets the following default values: 
+* Sample Rate - 100 samples/sec
+* Resolution - 4 counts/mm
+* Scaling - 1:1
+* Data Reporting Disabled
+
+Upon completion of the Basic Assurance Test, the mouse sends either '0xAA' to signify that it has succesfully completed the test or '0xFC' if an error occured. If the Host receives anything other than '0xAA', then it can either cycle the mouse's power to reset it or send the 'Reset' command again. Once a '0xAA' completion code has been received, the mouse sends its device ID of '0x00' to distinguish itself from a keyboard or a mouse in an extended mode (not sure what extended means yet). It seems that datasheets recommend the Host not transmit any data packets until the mouse device ID has been received. After sending the ID, the mouse enters Stream Mode where it continuously samples and collects data about mouse activity. **However** as you can see above in the Default values, "Data Reporting Disabled". This means that though the mouse is collecting data, it is not reporting (sending the data packets) to the Host and it will continue to not do so until the Host Enables Reporting by sending the command '0xF4' to the mouse. Once the mouse "Acknowledges" the "Enable Reporting Mode" command with the message '0xFA', the mouse enters Stream Mode where the mouse is setup to stream data packets regarding button clicks and mouse movements back to the Host.
+
+#### Attempt 1
+Send reset and try to read every bit in the loop part of the code and print every bit to the console log. Maybe increase the port speed for the Serial Console. *Talk about how to send and receive data between Host and Mouse, include pictures of the timing diagrams*
+
+#### Attampt 2
+Send reset and this time in loop part batch the data received from mouse and then print every byte to console log
+
+#### Attempt 3
+Realize the loop part of the code is based on Arduino's internal timing frequency and might not always line up with mouse's sending frequency, so what if I speed up arduino's sampling frequency. 
+
+#### Attempt 4
+Facepalm really hard and realize that once I send the Reset data to the mouse, I can have the clock signals being received from the mouse cause interrupts which then causes the Arduino to go the Interrupt Handler where I have written code to read and batch data until the whole packet is sent. Then print it out to the Console Log. This attempt has been the most promising as this is the only attempt where I was able to *sorta clearly* read a response from the mouse. Here is what I saw:
+*insert picture of console log, breakdown what the numbers could mean*
+
+#### 8 April Conclusions
+What do the 1's in the beginning mean? I don't know. Where did they come from? I don't know. What I do know though is that progress has been made. Something happened! I was able to send data to the mouse with correct timing and receive some kind of response that seems to so far check off Steps 2 and 3. Why I have not receieved a Device ID is yet to be figured out. But 3/7 Steps completed on my first day is not bad at all. Looking forward to how I progress. 
